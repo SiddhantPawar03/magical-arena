@@ -36,6 +36,11 @@
       <button id="reset-button" class="btn btn-danger">Reset</button>
     </div>
   </div>
+  <div class="row my-4">
+    <div class="col text-center">
+      <button id="next-test-case" class="btn btn-info">Run Next Test Case</button>
+    </div>
+  </div>
   <div class="row">
     <div class="col">
       <div class="table-responsive">
@@ -61,9 +66,41 @@
 </div>
 
 <script>
-  let player1 = { name: 'Player A', health: 50, strength: 5, attack: 10 };
-  let player2 = { name: 'Player B', health: 100, strength: 10, attack: 5 };
-  let currentTurn = 'player1';
+  const testCases = [
+    //Considering various test-scenarios for both players
+    {
+      player1: { name: 'Player A', health: 50, strength: 5, attack: 10 },
+      player2: { name: 'Player B', health: 100, strength: 10, attack: 5 }
+    },
+    {
+      player1: { name: 'Player A', health: 50, strength: 5, attack: 20 },
+      player2: { name: 'Player B', health: 100, strength: 10, attack: 5 }
+    },
+    {
+      player1: { name: 'Player A', health: 50, strength: 10, attack: 10 },
+      player2: { name: 'Player B', health: 100, strength: 5, attack: 5 }
+    },
+    {
+      player1: { name: 'Player A', health: 50, strength: 10, attack: 10 },
+      player2: { name: 'Player B', health: 50, strength: 10, attack: 10 }
+    },
+    {
+      player1: { name: 'Player A', health: 1, strength: 5, attack: 10 },
+      player2: { name: 'Player B', health: 100, strength: 10, attack: 5 }
+    }
+  ];
+
+  let currentTestCaseIndex = 0;
+
+  function loadTestCase(index) {
+    const testCase = testCases[index];
+    player1 = testCase.player1;
+    player2 = testCase.player2;
+    updateUI();
+    resetGame();
+  }
+
+  let player1, player2, currentTurn;
 
   function rollDice() {
     return Math.floor(Math.random() * 6) + 1;
@@ -113,13 +150,10 @@
   }
 
   function resetGame() {
-    player1 = { name: 'Player A', health: 50, strength: 5, attack: 10 };
-    player2 = { name: 'Player B', health: 100, strength: 10, attack: 5 };
     document.getElementById('logs').getElementsByTagName('tbody')[0].innerHTML = '';
     currentTurn = 'player1';
     document.getElementById('fight-button-player1').disabled = false;
     document.getElementById('fight-button-player2').disabled = true;
-    updateUI();
   }
 
   function toggleButtons() {
@@ -142,7 +176,10 @@
   document.getElementById('fight-button-player1').addEventListener('click', () => fight(player1, player2));
   document.getElementById('fight-button-player2').addEventListener('click', () => fight(player2, player1));
   document.getElementById('reset-button').addEventListener('click', resetGame);
+  document.getElementById('next-test-case').addEventListener('click', () => {
+    currentTestCaseIndex = (currentTestCaseIndex + 1) % testCases.length;
+    loadTestCase(currentTestCaseIndex);
+  });
 
-  resetGame();
+  loadTestCase(0);
 </script>
-
