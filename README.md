@@ -12,6 +12,10 @@ Develop a magical arena game for the web in which two players engage in dice-rol
 - **Dynamic Logs**: Fight details are logged dynamically in a scrollable table.
 - **Test Cases**: Various test cases to simulate different gameplay scenarios.
 
+# Tech-Stack
+- Node.js
+- EJS
+
 # Setup
 - ```git clone https://github.com/SiddhantPawar03/magical-arena``` 
 - ```cd magical-arena```
